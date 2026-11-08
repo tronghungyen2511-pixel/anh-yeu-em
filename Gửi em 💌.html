@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gửi em 💌</title>
+<style>
+:root{
+  --bg1:#fff0f3;--bg2:#ffc9d8;--ink:#a3103f;--btn:#d6285f;--btn-ink:#fff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--bg1:#2b0b19;--bg2:#541532;--ink:#ffd3e2;--btn:#ff7aa3;--btn-ink:#2b0b19}
+}
+:root[data-theme="dark"]{--bg1:#2b0b19;--bg2:#541532;--ink:#ffd3e2;--btn:#ff7aa3;--btn-ink:#2b0b19}
+html,body{height:100%;margin:0}
+body{
+  background:linear-gradient(160deg,var(--bg1),var(--bg2));
+  font-family:"Be Vietnam Pro","Segoe UI",system-ui,sans-serif;
+  color:var(--ink);overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+}
+button{
+  font:inherit;font-size:1.15rem;font-weight:600;
+  background:var(--btn);color:var(--btn-ink);
+  border:0;border-radius:999px;padding:16px 34px;cursor:pointer;
+  transition:transform .15s ease;
+}
+button:active{transform:scale(.94)}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+p{margin:0;font-size:.95rem;opacity:.8}
+.line{
+  position:fixed;left:0;white-space:nowrap;font-weight:700;
+  font-size:clamp(22px,5.5vw,46px);color:var(--ink);
+  animation:run 9s linear forwards;pointer-events:none;
+}
+@keyframes run{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+.heart{
+  position:fixed;bottom:-30px;font-size:26px;pointer-events:none;
+  animation:up 3.5s ease-out forwards;
+}
+@keyframes up{to{transform:translateY(-110vh);opacity:0}}
+@media (prefers-reduced-motion: reduce){.heart{display:none}}
+</style>
+</head>
+<body>
+<button id="btn" type="button">Bấm vào đây 💌</button>
+<p>Có một lời nhắn dành cho em</p>
+
+<script>
+const MSG = "giữ gìn sức khỏe nha em, anh yêu em nhiều hơn ạ 💖";
+const NAME = "Thúy Hường";
+const NAME_REPEAT = 10;  // số lần tên chạy mỗi lần bấm
+const GAP = 700;         // khoảng cách giữa các lần (mili giây)
+const MSGS = [MSG, ...Array(NAME_REPEAT).fill(NAME)];
+document.getElementById("btn").addEventListener("click", () => {
+  MSGS.forEach((text, i) => {
+    setTimeout(() => {
+      const line = document.createElement("div");
+      line.className = "line";
+      line.textContent = text;
+      line.style.top = (12 + Math.random() * 70) + "vh";
+      line.addEventListener("animationend", () => line.remove());
+      document.body.appendChild(line);
+    }, i * GAP);
+  });
+
+  for (let i = 0; i < 8; i++) {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = ["💖", "💗", "💕"][i % 3];
+    h.style.left = (5 + Math.random() * 90) + "vw";
+    h.style.animationDelay = (Math.random() * 0.8) + "s";
+    h.addEventListener("animationend", () => h.remove());
+    document.body.appendChild(h);
+  }
+});
+</script>
+</body>
+</html>
